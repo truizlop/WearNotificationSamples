@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WearNotificationSamples</string>
+    <string name="send_plain_notification">Send plain notification</string>
 </resources>
