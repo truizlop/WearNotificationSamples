@@ -16,6 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/send_plain_notification"/>
+
+        <Button
+            android:id="@+id/action_notification_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send_action_notification"/>
     </LinearLayout>
 
 </ScrollView>
