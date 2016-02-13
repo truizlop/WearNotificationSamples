@@ -28,6 +28,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/send_wearable_action_notification"/>
+
+        <Button
+            android:id="@+id/big_notification_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send_big_notification"/>
     </LinearLayout>
 
 </ScrollView>

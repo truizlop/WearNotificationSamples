@@ -37,6 +37,11 @@ public class HomeActivity extends AppCompatActivity {
         sendNotificationWithActionInWearOnly();
     }
 
+    @OnClick(R.id.big_notification_button)
+    public void onSendBigNotificationClicked(){
+        sendBigNotification();
+    }
+
     private void sendPlainNotification(){
         String sender = "Jesse Pinkman";
         String message = "Yo! Mr. White!";
@@ -131,6 +136,37 @@ public class HomeActivity extends AppCompatActivity {
                 NotificationManagerCompat.from(this);
 
         int notificationId = 300;
+        notificationManager.notify(notificationId, notificationBuilder.build());
+    }
+
+    public void sendBigNotification(){
+        String sender = "Walter White";
+        String message = "I am the danger";
+        String longMessage = "I am not in danger, Skyler. I am the danger. A guy opens his door and gets shot and you think that of me? No. I am the one who knocks!";
+        String text = message + "\n" + longMessage;
+        @DrawableRes int image = R.drawable.white;
+
+        Intent viewIntent = ViewMessageActivity.getLaunchIntent(this, sender, text, image);
+        PendingIntent viewPendingIntent =
+                PendingIntent.getActivity(this, 5, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.BigTextStyle bigStyle = new NotificationCompat.BigTextStyle();
+        bigStyle.bigText(longMessage);
+
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_sms)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), image))
+                        .setContentTitle(sender)
+                        .setContentText(message)
+                        .setAutoCancel(true)
+                        .setContentIntent(viewPendingIntent)
+                        .setStyle(bigStyle);
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+
+        int notificationId = 400;
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
 }
