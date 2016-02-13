@@ -356,7 +356,7 @@ public class HomeActivity extends AppCompatActivity {
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Action action =
-                new NotificationCompat.Action.Builder(R.drawable.ic_sms,
+                new NotificationCompat.Action.Builder(R.drawable.ic_reply,
                         getString(R.string.reply_label), replyPendingIntent)
                         .addRemoteInput(remoteInput)
                         .build();
