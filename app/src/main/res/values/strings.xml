@@ -7,4 +7,5 @@
     <string name="send_big_notification">Send big notification</string>
     <string name="send_inbox_notification">Send notification with inbox style</string>
     <string name="send_wearable_extender_notification">Send notification with wearable extensions</string>
+    <string name="send_pages_notification">Send notification with pages</string>
 </resources>

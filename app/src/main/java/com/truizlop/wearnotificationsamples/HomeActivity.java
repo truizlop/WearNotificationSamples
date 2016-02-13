@@ -1,5 +1,6 @@
 package com.truizlop.wearnotificationsamples;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -50,6 +51,11 @@ public class HomeActivity extends AppCompatActivity {
     @OnClick(R.id.wearable_extender_notification_button)
     public void onSendWearableExtenderNotificationClicked(){
         sendNotificationWithWearableFeatures();
+    }
+
+    @OnClick(R.id.pages_notification_button)
+    public void onSendNotificationWithPagesClicked(){
+        sendNotificationWithPages();
     }
 
     private void sendPlainNotification(){
@@ -149,7 +155,7 @@ public class HomeActivity extends AppCompatActivity {
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
 
-    public void sendBigNotification(){
+    private void sendBigNotification(){
         String sender = "Walter White";
         String message = "I am the danger";
         String longMessage = "I am not in danger, Skyler. I am the danger. A guy opens his door and gets shot and you think that of me? No. I am the one who knocks!";
@@ -180,7 +186,7 @@ public class HomeActivity extends AppCompatActivity {
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
 
-    public void sendInboxNotification(){
+    private void sendInboxNotification(){
         String sender = "Walter White";
         String message = "I am the danger";
         String longMessage = "I am not in danger, Skyler. I am the danger. A guy opens his door and gets shot and you think that of me? No. I am the one who knocks!";
@@ -213,7 +219,7 @@ public class HomeActivity extends AppCompatActivity {
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
 
-    public void sendNotificationWithWearableFeatures(){
+    private void sendNotificationWithWearableFeatures(){
         String sender = "Jesse Pinkman";
         String message = "Yo! Mr. White!";
         @DrawableRes int image = R.drawable.pinkman;
@@ -241,5 +247,44 @@ public class HomeActivity extends AppCompatActivity {
 
         int notificationId = 600;
         notificationManager.notify(notificationId, notificationBuilder.build());
+    }
+
+    private void sendNotificationWithPages(){
+        String sender = "Walter White";
+        String message = "I am the danger";
+        String longMessage = "I am not in danger, Skyler. I am the danger. A guy opens his door and gets shot and you think that of me? No. I am the one who knocks!";
+        String text = message + "\n" + longMessage;
+        @DrawableRes int image = R.drawable.white;
+
+        Intent viewIntent = ViewMessageActivity.getLaunchIntent(this, sender, text, image);
+        PendingIntent viewPendingIntent =
+                PendingIntent.getActivity(this, 8, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_sms)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), image))
+                        .setContentTitle(sender)
+                        .setContentText(message)
+                        .setContentIntent(viewPendingIntent);
+
+        NotificationCompat.BigTextStyle secondPageStyle = new NotificationCompat.BigTextStyle();
+        secondPageStyle.bigText(longMessage);
+
+        Notification secondPageNotification =
+                new NotificationCompat.Builder(this)
+                        .setStyle(secondPageStyle)
+                        .build();
+
+        Notification notification = notificationBuilder
+                .extend(new NotificationCompat.WearableExtender()
+                        .addPage(secondPageNotification))
+                .build();
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+
+        int notificationId = 700;
+        notificationManager.notify(notificationId, notification);
     }
 }
