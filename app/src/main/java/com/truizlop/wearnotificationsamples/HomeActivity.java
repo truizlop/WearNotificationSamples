@@ -58,6 +58,11 @@ public class HomeActivity extends AppCompatActivity {
         sendNotificationWithPages();
     }
 
+    @OnClick(R.id.stack_notification_button)
+    public void onSendStackedNotificationsClicked(){
+        sendStackedNotifications();
+    }
+
     private void sendPlainNotification(){
         String sender = "Jesse Pinkman";
         String message = "Yo! Mr. White!";
@@ -286,5 +291,46 @@ public class HomeActivity extends AppCompatActivity {
 
         int notificationId = 700;
         notificationManager.notify(notificationId, notification);
+    }
+
+    private static final String GROUP_KEY_MESSAGES = "group_key_messages";
+
+    private void sendStackedNotifications(){
+
+        Notification notif = new NotificationCompat.Builder(this)
+                .setContentTitle("New message from Jesse Pinkman")
+                .setContentText("Let's cook")
+                .setSmallIcon(R.drawable.ic_sms)
+                .setGroup(GROUP_KEY_MESSAGES)
+                .setAutoCancel(true)
+                .build();
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+        notificationManager.notify(800, notif);
+
+        Notification notif2 = new NotificationCompat.Builder(this)
+                .setContentTitle("New mail from Skyler White")
+                .setContentText("Where are you?")
+                .setSmallIcon(R.drawable.ic_sms)
+                .setGroup(GROUP_KEY_MESSAGES)
+                .setAutoCancel(true)
+                .build();
+
+        notificationManager.notify(801, notif2);
+
+        Notification summaryNotification = new NotificationCompat.Builder(this)
+                .setContentTitle("2 new messages")
+                .setSmallIcon(R.drawable.ic_sms)
+                .setStyle(new NotificationCompat.InboxStyle()
+                        .addLine("Jesse Pinkmak   Let's cook")
+                        .addLine("Skyler White   Where are you?")
+                        .setBigContentTitle("2 new messages")
+                        .setSummaryText("walterwhite@heisenberg.com"))
+                .setGroup(GROUP_KEY_MESSAGES)
+                .setGroupSummary(true)
+                .build();
+
+        notificationManager.notify(802, summaryNotification);
     }
 }
