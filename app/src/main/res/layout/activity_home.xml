@@ -40,6 +40,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/send_inbox_notification"/>
+
+        <Button
+            android:id="@+id/wearable_extender_notification_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send_wearable_extender_notification"/>
     </LinearLayout>
 
 </ScrollView>

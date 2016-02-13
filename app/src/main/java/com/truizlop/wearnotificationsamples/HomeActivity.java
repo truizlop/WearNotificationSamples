@@ -43,8 +43,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.inbox_notification_button)
-    public void onSendInboxNotificationButton(){
+    public void onSendInboxNotificationClicked(){
         sendInboxNotification();
+    }
+
+    @OnClick(R.id.wearable_extender_notification_button)
+    public void onSendWearableExtenderNotificationClicked(){
+        sendNotificationWithWearableFeatures();
     }
 
     private void sendPlainNotification(){
@@ -205,6 +210,36 @@ public class HomeActivity extends AppCompatActivity {
                 NotificationManagerCompat.from(this);
 
         int notificationId = 500;
+        notificationManager.notify(notificationId, notificationBuilder.build());
+    }
+
+    public void sendNotificationWithWearableFeatures(){
+        String sender = "Jesse Pinkman";
+        String message = "Yo! Mr. White!";
+        @DrawableRes int image = R.drawable.pinkman;
+
+        Intent viewIntent = ViewMessageActivity.getLaunchIntent(this, sender, message, image);
+        PendingIntent viewPendingIntent =
+                PendingIntent.getActivity(this, 7, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.WearableExtender wearableExtender =
+                new NotificationCompat.WearableExtender()
+                        .setHintHideIcon(true)
+                        .setBackground(BitmapFactory.decodeResource(getResources(), image));
+
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_sms)
+                        .setContentTitle(sender)
+                        .setContentText(message)
+                        .setAutoCancel(true)
+                        .setContentIntent(viewPendingIntent)
+                        .extend(wearableExtender);
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+
+        int notificationId = 600;
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
 }
