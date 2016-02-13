@@ -58,6 +58,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/send_stack_notification"/>
+
+        <Button
+            android:id="@+id/predefined_choices_notification_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send_predefined_choices_notification"/>
     </LinearLayout>
 
 </ScrollView>

@@ -17,6 +17,8 @@
         </activity>
 
         <activity android:name=".ViewMessageActivity" />
+
+        <activity android:name=".ReplyActivity" />
     </application>
 
 </manifest>

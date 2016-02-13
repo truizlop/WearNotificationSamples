@@ -9,4 +9,13 @@
     <string name="send_wearable_extender_notification">Send notification with wearable extensions</string>
     <string name="send_pages_notification">Send notification with pages</string>
     <string name="send_stack_notification">Send stacked notifications</string>
+    <string name="reply_label">Reply</string>
+    <string name="send_predefined_choices_notification">Send notification with predefined reply choices</string>
+
+    <string-array name="reply_choices">
+        <item>Yes</item>
+        <item>No</item>
+        <item>Maybe</item>
+    </string-array>
+
 </resources>

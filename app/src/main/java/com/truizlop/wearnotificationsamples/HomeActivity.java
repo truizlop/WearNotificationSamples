@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.RemoteInput;
 import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
@@ -61,6 +62,11 @@ public class HomeActivity extends AppCompatActivity {
     @OnClick(R.id.stack_notification_button)
     public void onSendStackedNotificationsClicked(){
         sendStackedNotifications();
+    }
+
+    @OnClick(R.id.predefined_choices_notification_button)
+    public void onSendNotificationWithPredefinedChoicesClicked(){
+        sendNotificationWithPredefinedChoices();
     }
 
     private void sendPlainNotification(){
@@ -332,5 +338,41 @@ public class HomeActivity extends AppCompatActivity {
                 .build();
 
         notificationManager.notify(802, summaryNotification);
+    }
+
+    private void sendNotificationWithPredefinedChoices(){
+
+        String replyLabel = getResources().getString(R.string.reply_label);
+        String[] replyChoices = getResources().getStringArray(R.array.reply_choices);
+
+        RemoteInput remoteInput = new RemoteInput.Builder(ReplyActivity.EXTRA_VOICE_REPLY)
+                .setLabel(replyLabel)
+                .setChoices(replyChoices)
+                .build();
+
+        Intent replyIntent = new Intent(this, ReplyActivity.class);
+        PendingIntent replyPendingIntent =
+                PendingIntent.getActivity(this, 0, replyIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Action action =
+                new NotificationCompat.Action.Builder(R.drawable.ic_sms,
+                        getString(R.string.reply_label), replyPendingIntent)
+                        .addRemoteInput(remoteInput)
+                        .build();
+
+        Notification notification =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_sms)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.pinkman))
+                        .setContentTitle("Jesse Pinkman")
+                        .setContentText("Would you like to cook?")
+                        .setAutoCancel(true)
+                        .extend(new NotificationCompat.WearableExtender().addAction(action))
+                        .build();
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+        notificationManager.notify(900, notification);
     }
 }
