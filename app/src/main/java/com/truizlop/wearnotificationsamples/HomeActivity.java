@@ -32,6 +32,11 @@ public class HomeActivity extends AppCompatActivity {
         sendNotificationWithAction();
     }
 
+    @OnClick(R.id.wearable_action_notification_button)
+    public void onSendWearableActionNotificationClicked(){
+        sendNotificationWithActionInWearOnly();
+    }
+
     private void sendPlainNotification(){
         String sender = "Jesse Pinkman";
         String message = "Yo! Mr. White!";
@@ -87,6 +92,45 @@ public class HomeActivity extends AppCompatActivity {
                 NotificationManagerCompat.from(this);
 
         int notificationId = 200;
+        notificationManager.notify(notificationId, notificationBuilder.build());
+    }
+
+    private void sendNotificationWithActionInWearOnly(){
+        String sender = "Jesse Pinkman";
+        String message = "I am waiting for you!";
+        @DrawableRes int image = R.drawable.pinkman;
+
+        Intent viewIntent = ViewMessageActivity.getLaunchIntent(this, sender, message, image);
+        PendingIntent viewPendingIntent =
+                PendingIntent.getActivity(this, 3, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW);
+        String albuquerque = "35.085334,-106.605553";
+        Uri geoUri = Uri.parse("geo:0,0?q=" + Uri.encode(albuquerque));
+        mapIntent.setData(geoUri);
+        PendingIntent mapPendingIntent =
+                PendingIntent.getActivity(this, 4, mapIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Action action =
+                new NotificationCompat.Action.Builder(R.drawable.ic_map,
+                        getString(R.string.map), mapPendingIntent)
+                        .build();
+
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_sms)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), image))
+                        .setContentTitle(sender)
+                        .setContentText(message)
+                        .setAutoCancel(true)
+                        .setContentIntent(viewPendingIntent)
+                        .extend(new NotificationCompat.WearableExtender().addAction(action));
+
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+
+        int notificationId = 300;
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
 }

@@ -3,4 +3,5 @@
     <string name="send_plain_notification">Send plain notification</string>
     <string name="map">Map</string>
     <string name="send_action_notification">Send notification with action</string>
+    <string name="send_wearable_action_notification">Send notification with action only in Wear</string>
 </resources>
